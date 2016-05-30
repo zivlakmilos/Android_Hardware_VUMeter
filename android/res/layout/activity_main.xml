@@ -8,4 +8,42 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="net.ddns.zivlakmilos.hardwarevumeter.MainActivity" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical" >
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/btnPrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Prev" />
+
+            <Button
+                android:id="@+id/btnPlayPause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=">" />
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
