@@ -1,6 +1,7 @@
 package net.ddns.zivlakmilos.hardwarevumeter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,5 +38,7 @@ public class MainActivity extends Activity {
 	
 	private void actionBluetooth_Click()
 	{
+		Intent intent = new Intent(this, BluetoothActivity.class);
+		startActivity(intent);
 	}
 }
