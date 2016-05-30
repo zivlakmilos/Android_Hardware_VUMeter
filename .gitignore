@@ -1,4 +1,4 @@
-# Built application files
+#Built application files
 *.apk
 *.ap_
 
@@ -30,3 +30,9 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+# Eclipse
+.settings/
+.project/
+.classpath/
+libs/
