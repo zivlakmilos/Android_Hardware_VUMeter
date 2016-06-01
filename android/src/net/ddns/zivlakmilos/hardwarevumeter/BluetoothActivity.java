@@ -102,10 +102,15 @@ public class BluetoothActivity extends Activity {
 				return ;
 			}
 			
-			/*
-			 * TODO:
-			 * 	Kreirati nit za upravljanje konekcijom
-			 */
+			((HardwareVUMeter)getApplication()).setBtNetwork(new BluetoothNetwork(m_btSocket));
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					
+					finish();
+				}
+			});
 		}
 		
 		public void cancel()
