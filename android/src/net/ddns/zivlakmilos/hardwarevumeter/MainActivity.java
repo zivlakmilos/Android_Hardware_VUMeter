@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	
+	private BluetoothNetwork m_btNetwork = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,5 +42,6 @@ public class MainActivity extends Activity {
 	{
 		Intent intent = new Intent(this, BluetoothActivity.class);
 		startActivity(intent);
+		m_btNetwork = ((HardwareVUMeter)getApplication()).getBtNetwork();
 	}
 }
