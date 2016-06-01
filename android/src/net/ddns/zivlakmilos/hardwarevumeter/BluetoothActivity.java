@@ -15,13 +15,19 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.TextureView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class BluetoothActivity extends Activity {
 	
 	private final int REQUEST_BT_ENABLE			= 101;
+	private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private BluetoothAdapter m_btAdapter;
 	private BroadcastReceiver m_reciver;
 	private ArrayAdapter<String> m_pairedDevices;
@@ -66,6 +72,20 @@ public class BluetoothActivity extends Activity {
 		
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		registerReceiver(m_reciver, filter);
+		
+		lwPairedDevices.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parentView, View childView, int position,
+					long id) {
+				
+				String strSelected = ((TextView)childView).getText().toString();
+				String address = strSelected.split("[\n]")[1];
+				BluetoothDevice device = m_btAdapter.getRemoteDevice(address);
+				ConnectThred connectThred = new ConnectThred(device);
+				connectThred.start();
+			}
+		});
 	}
 	
 	@Override
@@ -80,7 +100,7 @@ public class BluetoothActivity extends Activity {
 			BluetoothSocket tmp = null;
 			
 			try {
-				tmp = device.createRfcommSocketToServiceRecord(UUID.randomUUID());
+				tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
 			} catch (IOException ex) {
 				Log.println(Log.ERROR, "Bluetooth", "Kreiranje socket-a nije uspelo");
 			}
