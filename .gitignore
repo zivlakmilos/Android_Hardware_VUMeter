@@ -36,3 +36,8 @@ captures/
 .project/
 .classpath/
 libs/
+
+# AVR
+*.o
+*.elf
+*.hex
