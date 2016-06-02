@@ -27,12 +27,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				
-				BluetoothNetwork btNetwork = ((HardwareVUMeter)getApplication()).getBtNetwork();
-				if(btNetwork != null) {
-					btNetwork.send("U".getBytes());
-					Log.println(Log.DEBUG, "Bluetooth", "U".getBytes().toString());
-				} else
-					Log.println(Log.ERROR, "Bluetooth", "Objekat m_btNetwork nije instanciran");
 			}
 		});
 	}
