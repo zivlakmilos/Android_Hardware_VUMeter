@@ -1,10 +1,17 @@
 package net.ddns.zivlakmilos.hardwarevumeter;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -15,6 +22,21 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Button btnPlayPause = (Button)findViewById(R.id.btnPlayPause);
+		btnPlayPause.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				
+				m_btNetwork = ((HardwareVUMeter)getApplication()).getBtNetwork();
+				if(m_btNetwork != null) {
+					m_btNetwork.send("U".getBytes());
+					Log.println(Log.DEBUG, "Bluetooth", "U".getBytes().toString());
+				} else
+					Log.println(Log.ERROR, "Bluetooth", "Objekat m_btNetwork nije instanciran");
+			}
+		});
 	}
 
 	@Override
