@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-	
-	private BluetoothNetwork m_btNetwork = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +27,9 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				
-				m_btNetwork = ((HardwareVUMeter)getApplication()).getBtNetwork();
-				if(m_btNetwork != null) {
-					m_btNetwork.send("U".getBytes());
+				BluetoothNetwork btNetwork = ((HardwareVUMeter)getApplication()).getBtNetwork();
+				if(btNetwork != null) {
+					btNetwork.send("U".getBytes());
 					Log.println(Log.DEBUG, "Bluetooth", "U".getBytes().toString());
 				} else
 					Log.println(Log.ERROR, "Bluetooth", "Objekat m_btNetwork nije instanciran");
@@ -64,6 +62,5 @@ public class MainActivity extends Activity {
 	{
 		Intent intent = new Intent(this, BluetoothActivity.class);
 		startActivity(intent);
-		m_btNetwork = ((HardwareVUMeter)getApplication()).getBtNetwork();
 	}
 }
