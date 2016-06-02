@@ -1,11 +1,15 @@
 package net.ddns.zivlakmilos.hardwarevumeter;
 
+import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +31,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				
+				fileChoser();
 			}
 		});
 	}
@@ -56,5 +61,20 @@ public class MainActivity extends Activity {
 	{
 		Intent intent = new Intent(this, BluetoothActivity.class);
 		startActivity(intent);
+	}
+	
+	private void fileChoser() {
+		
+		MusicOpenDialog openDialog = new MusicOpenDialog(this, Environment.getExternalStorageDirectory());
+		openDialog.show();
+		openDialog.setOnSelectSongListener(new MusicOpenDialog.OnSelectSongListener() {
+			
+			@Override
+			public void onSongSelected(File selectedSong) {
+				
+				// TODO: Kod za ucitavanje pesme u MediaPlayer
+				Log.println(Log.DEBUG, "Fajl", selectedSong.getAbsolutePath());
+			}
+		});
 	}
 }
