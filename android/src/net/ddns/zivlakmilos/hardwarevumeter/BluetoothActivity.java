@@ -116,6 +116,15 @@ public class BluetoothActivity extends Activity {
 				m_btSocket.connect();
 			} catch(IOException ex) {
 				Log.println(Log.ERROR, "Bluetooth", "Konekcija nije uspela");
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						
+						Toast.makeText(getApplication(),
+								"Konekcija sa bluetooth uredjajem nije uspela", Toast.LENGTH_LONG).show();
+					}
+				});
 				try {
 					m_btSocket.close();
 				} catch (IOException ex2) {}
