@@ -31,7 +31,13 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				
-				fileChoser();
+				Button sender = (Button)arg0;
+				
+				if(sender.getText().equals(">")) {
+					sender.setText("||");
+				} else {
+					sender.setText(">");
+				}
 			}
 		});
 	}
