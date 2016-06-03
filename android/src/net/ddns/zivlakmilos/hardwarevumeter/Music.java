@@ -23,8 +23,11 @@ public class Music {
 		m_context = context;
 		m_song = song;
 		m_mediaPlayer = MediaPlayer.create(context, Uri.parse(song.getAbsolutePath()));
-		Log.d(MUSIC_TAG, song.getAbsolutePath());
-		Log.d(MUSIC_TAG, song.getPath());
+		try {
+			m_mediaPlayer.prepare();
+		} catch (Exception e) {
+			Log.d(MUSIC_TAG, "Greska prilikom pripreme media player-a");
+		}
 	}
 	
 	public void play() {
@@ -55,5 +58,12 @@ public class Music {
 	}
 	
 	public void setSong(File song) {
+		
+		try {
+			m_mediaPlayer.setDataSource(song.getAbsolutePath());
+			m_mediaPlayer.prepare();
+		} catch (Exception e) {
+			Log.d(MUSIC_TAG, "Greska prilikom postavljanja pesme");
+		}
 	}
 }
