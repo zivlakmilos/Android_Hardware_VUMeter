@@ -26,6 +26,8 @@ import android.widget.Toast;
 
 public class BluetoothActivity extends Activity {
 	
+	public static final String BLUETOOTH_ACTIVITY_TAG = "BluetoothActivityTag";
+	
 	private final int REQUEST_BT_ENABLE			= 101;
 	private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	private BluetoothAdapter m_btAdapter;
@@ -102,7 +104,7 @@ public class BluetoothActivity extends Activity {
 			try {
 				tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
 			} catch (IOException ex) {
-				Log.println(Log.ERROR, "Bluetooth", "Kreiranje socket-a nije uspelo");
+				Log.d(BLUETOOTH_ACTIVITY_TAG, "Kreiranje socket-a nije uspelo");
 			}
 			
 			m_btSocket = tmp;
@@ -115,7 +117,7 @@ public class BluetoothActivity extends Activity {
 			try {
 				m_btSocket.connect();
 			} catch(IOException ex) {
-				Log.println(Log.ERROR, "Bluetooth", "Konekcija nije uspela");
+				Log.d(BLUETOOTH_ACTIVITY_TAG, "Konekcija nije uspela");
 				runOnUiThread(new Runnable() {
 					
 					@Override
@@ -147,7 +149,7 @@ public class BluetoothActivity extends Activity {
 			try {
 				m_btSocket.close();
 			} catch (IOException ex) {
-				Log.println(Log.WARN, "Bluetooth", "Nema konekcije za zatvaranje");
+				Log.d(BLUETOOTH_ACTIVITY_TAG, "Nema konekcije za zatvaranje");
 			}
 		}
 	}

@@ -23,7 +23,8 @@ public class BluetoothNetwork extends Thread {
 			m_inputStream = m_btSocket.getInputStream();
 			m_outputStream = m_btSocket.getOutputStream();
 		} catch (IOException ex) {
-			Log.println(Log.ERROR, "Bluetooth", "Nije moguce otvoriti input/output stream");
+			Log.d(BluetoothActivity.BLUETOOTH_ACTIVITY_TAG,
+					"Nije moguce otvoriti input/output stream");
 		}
 	}
 	
@@ -32,7 +33,8 @@ public class BluetoothNetwork extends Thread {
 		try {
 			m_outputStream.write(bytes);
 		} catch (IOException ex) {
-			Log.println(Log.ERROR, "Bluetooth", "Greska prilikom slanja podataka");
+			Log.d(BluetoothActivity.BLUETOOTH_ACTIVITY_TAG,
+					"Greska prilikom slanja podataka");
 		}
 	}
 	
@@ -41,7 +43,8 @@ public class BluetoothNetwork extends Thread {
 		try {
 			m_btSocket.close();
 		} catch (IOException e) {
-			Log.println(Log.ERROR, "Bluetooth", "Greska prilikom zatvaranja socket-a");
+			Log.d(BluetoothActivity.BLUETOOTH_ACTIVITY_TAG,
+					"Greska prilikom zatvaranja socket-a");
 		}
 	}
 }
