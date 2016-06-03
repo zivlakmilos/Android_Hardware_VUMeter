@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	
+	public static final String MAIN_ACTIVITY_TAG = "MainActivityTag";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +81,6 @@ public class MainActivity extends Activity {
 			public void onSongSelected(File selectedSong) {
 				
 				// TODO: Kod za ucitavanje pesme u MediaPlayer
-				Log.println(Log.DEBUG, "Fajl", selectedSong.getAbsolutePath());
 			}
 		});
 	}
