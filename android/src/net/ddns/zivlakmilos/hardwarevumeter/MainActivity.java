@@ -21,6 +21,9 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 	
 	public static final String MAIN_ACTIVITY_TAG = "MainActivityTag";
+	
+	private Music m_musicPlayer = null;
+	private File m_selectedSong;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class MainActivity extends Activity {
 				Button sender = (Button)arg0;
 				
 				if(sender.getText().equals(">")) {
+					fileChoser();
 					sender.setText("||");
 				} else {
 					sender.setText(">");
@@ -65,6 +69,15 @@ public class MainActivity extends Activity {
 
 	}
 	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		
+		if(m_musicPlayer != null) {
+			m_musicPlayer.stop();
+		}
+	}
+	
 	private void actionBluetooth_Click()
 	{
 		Intent intent = new Intent(this, BluetoothActivity.class);
@@ -80,8 +93,26 @@ public class MainActivity extends Activity {
 			@Override
 			public void onSongSelected(File selectedSong) {
 				
-				// TODO: Kod za ucitavanje pesme u MediaPlayer
+				m_selectedSong = new File(Environment.getExternalStorageDirectory() + selectedSong.getAbsolutePath());
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						
+						playSelectedSong();
+					}
+				});
 			}
 		});
+	}
+	
+	private void playSelectedSong() {
+		
+		if(m_musicPlayer == null) {
+			m_musicPlayer = new Music(getApplication(), m_selectedSong);
+		} else {
+			m_musicPlayer.setSong(m_selectedSong);
+		}
+		m_musicPlayer.play();
 	}
 }
