@@ -64,6 +64,8 @@ public class MainActivity extends Activity {
 		if (id == R.id.action_bluetooth) {
 			actionBluetooth_Click();
 			return true;
+		} else if(id == R.id.action_playlist) {
+			actionPlaylist_Click();
 		}
 		return super.onOptionsItemSelected(item);
 
@@ -78,9 +80,15 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-	private void actionBluetooth_Click()
-	{
+	private void actionBluetooth_Click() {
+		
 		Intent intent = new Intent(this, BluetoothActivity.class);
+		startActivity(intent);
+	}
+	
+	private void actionPlaylist_Click() {
+		
+		Intent intent = new Intent(this, PlaylistActivity.class);
 		startActivity(intent);
 	}
 	

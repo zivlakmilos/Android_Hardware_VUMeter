@@ -3,6 +3,8 @@
 
     <string name="app_name">HardwareVUMeter</string>
     <string name="action_bluetooth">Bluetooth</string>
+    <string name="action_playlist">Playlist</string>
     <string name="title_activity_bluetooth">BluetoothActivity</string>
+    <string name="title_activity_playlist">Playlist</string>
 
 </resources>
