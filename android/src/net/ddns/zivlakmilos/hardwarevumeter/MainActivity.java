@@ -68,6 +68,26 @@ public class MainActivity extends Activity {
 				
 			}
 		});
+		
+		Button btnPrev = (Button)findViewById(R.id.btnPrev);
+		btnPrev.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				
+				m_musicPlayer.previous();
+			}
+		});
+		
+		Button btnNext = (Button)findViewById(R.id.btnNext);
+		btnNext.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				
+				m_musicPlayer.next();
+			}
+		});
 	}
 
 	@Override

@@ -137,4 +137,25 @@ public class Music {
 		
 		m_mediaPlayer.seekTo(position);
 	}
+	
+	public void next() {
+		
+		int index = m_songIndex + 1;
+		if(index > m_songList.size() - 1)
+			index = 0;
+		setSong(m_songIndex + 1);
+	}
+	
+	public void previous() {
+		
+		int index = m_songIndex;
+		if(m_mediaPlayer.getCurrentPosition() < 1000) {
+			
+			index = m_songIndex - 1;
+			if(index < 0)
+				index = 0;
+		}
+		
+		setSong(index);
+	}
 }
