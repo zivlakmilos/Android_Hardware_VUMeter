@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -31,5 +35,22 @@ public class PlaylistActivity extends Activity {
 			
 			m_playList.add(song.get("title"));
 		}
+		
+		m_lwPlaylist.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
+				
+				Intent intent = new Intent(getApplication(),
+						PlaylistActivity.class);
+				intent.putExtra("songIndex", position);
+				if(getParent() == null)
+					setResult(RESULT_OK, intent);
+				else
+					getParent().setResult(RESULT_OK, intent);
+				finish();
+			}
+		});
 	}
 }

@@ -19,15 +19,16 @@ public class Music {
 	
 	private MediaPlayer m_mediaPlayer;
 	private Context m_context;
-	private boolean m_isPlaying;
 	private ArrayList<HashMap<String, String>> m_songList = new ArrayList<HashMap<String,String>>();
-	private int m_songIndex = 0;
+	private int m_songIndex;
 	
 	public Music(Context context) {
 		
 		m_context = context;
 		
 		createPlaylist(Environment.getExternalStorageDirectory());
+		m_mediaPlayer = new MediaPlayer();
+		setSong(0);
 	}
 	
 	private void createPlaylist(File home) {
@@ -96,22 +97,44 @@ public class Music {
 		}
 	}
 	
+	public boolean isPlaying() {
+		
+		return m_mediaPlayer.isPlaying();
+	}
+	
 	public ArrayList<HashMap<String, String>> getPlaylist() {
 		return m_songList;
 	}
 	
+	public int getDuration() {
+		return m_mediaPlayer.getDuration();
+	}
+	
+	public int getPosition() {
+		return m_mediaPlayer.getCurrentPosition();
+	}
+	
 	public void setSong(int songIndex) {
+		
+		boolean isPlaying = m_mediaPlayer.isPlaying();
 		
 		m_songIndex = songIndex;
 		String filePath = m_songList.get(songIndex).get("path");
 		try {
-			if(m_mediaPlayer != null)
-				m_mediaPlayer.setDataSource(m_songList.get(songIndex).get(filePath));
-			else
-				m_mediaPlayer = MediaPlayer.create(m_context, Uri.parse(filePath));
+			if(m_mediaPlayer.isPlaying())
+				m_mediaPlayer.stop();
+			m_mediaPlayer.reset();
+			m_mediaPlayer.setDataSource(filePath);
 			m_mediaPlayer.prepare();
+			if(isPlaying)
+				m_mediaPlayer.start();
 		} catch (Exception e) {
 			Log.d(MUSIC_TAG, "Greska prilikom postavljanja pesme");
 		}
+	}
+	
+	public void setPosition(int position) {
+		
+		m_mediaPlayer.seekTo(position);
 	}
 }

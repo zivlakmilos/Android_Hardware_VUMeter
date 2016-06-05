@@ -3,17 +3,23 @@ package net.ddns.zivlakmilos.hardwarevumeter;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class MainActivity extends Activity {
 	
 	public static final String MAIN_ACTIVITY_TAG = "MainActivityTag";
+	public static final int PLAYLIST_ACTIVITY_REQUEST = 1001;
 	
 	private Music m_musicPlayer;
+	private SeekBar m_seekBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +38,34 @@ public class MainActivity extends Activity {
 				
 				if(sender.getText().equals(">")) {
 					m_musicPlayer.play();
-					sender.setText("||");
+					if(m_musicPlayer.isPlaying())
+						sender.setText("||");
+					setupPlayer();
 				} else {
 					m_musicPlayer.pause();
-					sender.setText(">");
+					if(!m_musicPlayer.isPlaying());
+						sender.setText(">");
 				}
+			}
+		});
+		
+		m_seekBar = (SeekBar)findViewById(R.id.seekBar);
+		m_seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar arg0) {
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar arg0) {
+				
+				m_musicPlayer.setPosition(m_seekBar.getProgress());
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
+				
 			}
 		});
 	}
@@ -71,6 +100,21 @@ public class MainActivity extends Activity {
 		m_musicPlayer.stop();
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		
+		if(requestCode == PLAYLIST_ACTIVITY_REQUEST) {
+			
+			if(resultCode == RESULT_OK) {
+				
+				Bundle bundle = data.getExtras();
+				int songIndex = bundle.getInt("songIndex");
+				m_musicPlayer.setSong(songIndex);
+				setupPlayer();
+			}
+		}
+	}
+	
 	private void actionBluetooth_Click() {
 		
 		Intent intent = new Intent(this, BluetoothActivity.class);
@@ -80,6 +124,11 @@ public class MainActivity extends Activity {
 	private void actionPlaylist_Click() {
 		
 		Intent intent = new Intent(this, PlaylistActivity.class);
-		startActivity(intent);
+		startActivityForResult(intent, PLAYLIST_ACTIVITY_REQUEST);
+	}
+	
+	private void setupPlayer() {
+		
+		m_seekBar.setMax(m_musicPlayer.getDuration());
 	}
 }
