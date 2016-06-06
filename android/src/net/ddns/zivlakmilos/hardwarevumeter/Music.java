@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.media.audiofx.Visualizer;
+import android.media.audiofx.Visualizer.OnDataCaptureListener;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -21,6 +23,8 @@ public class Music {
 	private Context m_context;
 	private ArrayList<HashMap<String, String>> m_songList = new ArrayList<HashMap<String,String>>();
 	private int m_songIndex;
+	private Visualizer m_visualizer;
+	private float m_amplitude;
 	
 	public Music(Context context) {
 		
@@ -29,6 +33,8 @@ public class Music {
 		createPlaylist(Environment.getExternalStorageDirectory());
 		m_mediaPlayer = new MediaPlayer();
 		setSong(0);
+		
+		creeateVisualizer();
 	}
 	
 	private void createPlaylist(File home) {
@@ -157,5 +163,29 @@ public class Music {
 		}
 		
 		setSong(index);
+	}
+	
+	private void creeateVisualizer() {
+		
+		int rate = Visualizer.getMaxCaptureRate();
+		
+		m_visualizer = new Visualizer(0);
+		
+		m_visualizer.setDataCaptureListener(new OnDataCaptureListener() {
+			
+			@Override
+			public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
+				
+				m_amplitude = waveform[0] + 128.0f;
+				Log.d(MUSIC_TAG, String.valueOf(m_amplitude));
+			}
+			
+			@Override
+			public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
+				
+			}
+		}, rate, true, false);
+		
+		m_visualizer.setEnabled(true);
 	}
 }
