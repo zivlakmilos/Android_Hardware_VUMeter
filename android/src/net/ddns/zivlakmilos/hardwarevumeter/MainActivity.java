@@ -18,8 +18,12 @@ public class MainActivity extends Activity {
 	public static final String MAIN_ACTIVITY_TAG = "MainActivityTag";
 	public static final int PLAYLIST_ACTIVITY_REQUEST = 1001;
 	
+	private static final int SEEK_BAR_UPDATE_INTERVAL = 1000;
+	
 	private Music m_musicPlayer;
 	private SeekBar m_seekBar;
+	private Handler m_handler;
+	private OnSeekUpdater m_seekUpdater;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,8 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		
 		m_musicPlayer = new Music(getApplication());
+		m_handler = new Handler();
+		m_seekUpdater = new OnSeekUpdater();
 		
 		Button btnPlayPause = (Button)findViewById(R.id.btnPlayPause);
 		btnPlayPause.setOnClickListener(new OnClickListener() {
@@ -38,8 +44,11 @@ public class MainActivity extends Activity {
 				
 				if(sender.getText().equals(">")) {
 					m_musicPlayer.play();
-					if(m_musicPlayer.isPlaying())
+					if(m_musicPlayer.isPlaying()) {
+						
+						m_handler.postDelayed(m_seekUpdater, SEEK_BAR_UPDATE_INTERVAL);
 						sender.setText("||");
+					}
 					setupPlayer();
 				} else {
 					m_musicPlayer.pause();
@@ -55,12 +64,15 @@ public class MainActivity extends Activity {
 			@Override
 			public void onStopTrackingTouch(SeekBar arg0) {
 				
+				int position = m_seekBar.getProgress();
+				m_musicPlayer.setPosition(position);
+				m_handler.postDelayed(m_seekUpdater, SEEK_BAR_UPDATE_INTERVAL);
 			}
 			
 			@Override
 			public void onStartTrackingTouch(SeekBar arg0) {
 				
-				m_musicPlayer.setPosition(m_seekBar.getProgress());
+				m_handler.removeCallbacks(m_seekUpdater);
 			}
 			
 			@Override
@@ -150,5 +162,17 @@ public class MainActivity extends Activity {
 	private void setupPlayer() {
 		
 		m_seekBar.setMax(m_musicPlayer.getDuration());
+	}
+	
+	private class OnSeekUpdater implements Runnable {
+		
+		@Override
+		public void run() {
+			
+			int position = m_musicPlayer.getPosition();
+			m_seekBar.setProgress(position);
+			
+			m_handler.postDelayed(this, SEEK_BAR_UPDATE_INTERVAL);
+		}
 	}
 }
