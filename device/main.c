@@ -31,9 +31,9 @@ int main(void)
 {
     char byte;
 
-    DDRB = 0x00;
+    DDRB = 0x02;
     DDRC = 0x00;
-    DDRD = 0x00;
+    DDRD = 0xFE;
 
     UART_init(BAUD, UART_INTERRUPT_DISABLE);
 
@@ -43,15 +43,9 @@ int main(void)
 
     while(1)
     {
-        UART_printf("U - ukljuceno\n");
-        UART_printf("I - iskljuceno\n");
         UART_scanf("Akcija: %c", &byte);
-        UART_printf("Poslato je %c\n\n", byte, byte);
-
-        if(byte == 'U')
-            PORTB |= (1 << PB5);
-        else if(byte == 'I')
-            PORTB &= ~(1 << PB5);
+        PORTD = byte * 8;
+        PORTB = byte & 0x02;
     }
 
     return 0;
