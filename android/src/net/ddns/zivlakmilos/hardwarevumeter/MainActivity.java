@@ -44,11 +44,8 @@ public class MainActivity extends Activity {
 				
 				if(sender.getText().equals(">")) {
 					m_musicPlayer.play();
-					if(m_musicPlayer.isPlaying()) {
-						
-						m_handler.postDelayed(m_seekUpdater, SEEK_BAR_UPDATE_INTERVAL);
+					if(m_musicPlayer.isPlaying())
 						sender.setText("||");
-					}
 					setupPlayer();
 				} else {
 					m_musicPlayer.pause();
@@ -88,6 +85,7 @@ public class MainActivity extends Activity {
 			public void onClick(View arg0) {
 				
 				m_musicPlayer.previous();
+				setupPlayer();
 			}
 		});
 		
@@ -98,6 +96,7 @@ public class MainActivity extends Activity {
 			public void onClick(View arg0) {
 				
 				m_musicPlayer.next();
+				setupPlayer();
 			}
 		});
 	}
@@ -162,6 +161,7 @@ public class MainActivity extends Activity {
 	private void setupPlayer() {
 		
 		m_seekBar.setMax(m_musicPlayer.getDuration());
+		m_handler.postDelayed(m_seekUpdater, SEEK_BAR_UPDATE_INTERVAL);
 	}
 	
 	private class OnSeekUpdater implements Runnable {
