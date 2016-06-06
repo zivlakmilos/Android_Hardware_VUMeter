@@ -25,7 +25,7 @@ public class Music {
 	private ArrayList<HashMap<String, String>> m_songList = new ArrayList<HashMap<String,String>>();
 	private int m_songIndex;
 	private Visualizer m_visualizer;
-	private float m_amplitude;
+	private int m_amplitude;
 	
 	private List<OnVisualizeListener> m_listeners = new ArrayList<Music.OnVisualizeListener>();
 	
@@ -183,11 +183,11 @@ public class Music {
 			@Override
 			public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
 				
-				m_amplitude = waveform[0] + 128.0f;
+				m_amplitude = waveform[0] + 128;
 				Log.d(MUSIC_TAG, String.valueOf(m_amplitude));
 				
 				for(OnVisualizeListener listener : m_listeners) {
-					listener.onVisualize((int)m_amplitude);
+					listener.onVisualize(m_amplitude);
 				}
 			}
 			
