@@ -1,6 +1,8 @@
 package net.ddns.zivlakmilos.hardwarevumeter;
 
+import net.ddns.zivlakmilos.hardwarevumeter.Music.OnVisualizeListener;
 import android.app.Activity;
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -97,6 +99,21 @@ public class MainActivity extends Activity {
 				
 				m_musicPlayer.next();
 				setupPlayer();
+			}
+		});
+		
+		m_musicPlayer.setOnVisualizeListener(new OnVisualizeListener() {
+			
+			@Override
+			public void onVisualize(int amplitude) {
+				
+				BluetoothNetwork btNetwork =
+						((HardwareVUMeter)getApplication()).getBtNetwork();
+				if(btNetwork != null) {
+					
+					byte[] data = { (byte)amplitude };
+					btNetwork.send(data);
+				}
 			}
 		});
 	}

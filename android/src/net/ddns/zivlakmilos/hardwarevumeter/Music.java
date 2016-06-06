@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -25,6 +26,8 @@ public class Music {
 	private int m_songIndex;
 	private Visualizer m_visualizer;
 	private float m_amplitude;
+	
+	private List<OnVisualizeListener> m_listeners = new ArrayList<Music.OnVisualizeListener>();
 	
 	public Music(Context context) {
 		
@@ -165,6 +168,10 @@ public class Music {
 		setSong(index);
 	}
 	
+	public void setOnVisualizeListener(OnVisualizeListener onVisualizeListener) {
+		m_listeners.add(onVisualizeListener);
+	}
+	
 	private void creeateVisualizer() {
 		
 		int rate = Visualizer.getMaxCaptureRate();
@@ -178,6 +185,10 @@ public class Music {
 				
 				m_amplitude = waveform[0] + 128.0f;
 				Log.d(MUSIC_TAG, String.valueOf(m_amplitude));
+				
+				for(OnVisualizeListener listener : m_listeners) {
+					listener.onVisualize((int)m_amplitude);
+				}
 			}
 			
 			@Override
@@ -187,5 +198,9 @@ public class Music {
 		}, rate, true, false);
 		
 		m_visualizer.setEnabled(true);
+	}
+	
+	public interface OnVisualizeListener {
+		public void onVisualize(int amplitude);
 	}
 }
