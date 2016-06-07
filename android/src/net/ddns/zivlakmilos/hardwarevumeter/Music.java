@@ -176,7 +176,7 @@ public class Music {
 		
 		int rate = Visualizer.getMaxCaptureRate();
 		
-		m_visualizer = new Visualizer(0);
+		m_visualizer = new Visualizer(m_mediaPlayer.getAudioSessionId());
 		
 		m_visualizer.setDataCaptureListener(new OnDataCaptureListener() {
 			
@@ -184,7 +184,6 @@ public class Music {
 			public void onWaveFormDataCapture(Visualizer visualizer, byte[] waveform, int samplingRate) {
 				
 				m_amplitude = waveform[0] + 128;
-				Log.d(MUSIC_TAG, String.valueOf(m_amplitude));
 				
 				for(OnVisualizeListener listener : m_listeners) {
 					listener.onVisualize(m_amplitude);
