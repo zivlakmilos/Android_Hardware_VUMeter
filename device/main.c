@@ -30,6 +30,7 @@
 int main(void)
 {
     char byte = 0x00;
+    unsigned char i;
 
     DDRB = 0x02;
     DDRC = 0x00;
@@ -44,8 +45,9 @@ int main(void)
     while(1)
     {
         UART_scanf("Akcija: %c", &byte);
-        PORTD = byte * 2;
-        PORTB = byte & 0x03;
+        PORTD = (byte << 2);
+        PORTD &= 0xFE;
+        _delay_ms(100);
     }
 
     return 0;
