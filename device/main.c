@@ -54,7 +54,7 @@ int main(void)
         PORTB = (displayState >> 6);
         PORTD = (displayState << 2);
         PORTD &= 0xFC;
-        PORTB &= 0x02;
+        PORTB &= 0x03;
     }
 
     return 0;
