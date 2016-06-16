@@ -33,7 +33,7 @@ int main(void)
     char displayState;
     unsigned char i, j;
 
-    DDRB = 0x02;
+    DDRB = 0x03;
     DDRC = 0x00;
     DDRD = 0xFC;
 
